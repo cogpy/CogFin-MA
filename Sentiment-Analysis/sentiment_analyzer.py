@@ -103,8 +103,8 @@ def sentiment_analyzer_pdf(pdf_content: str) -> Dict:
     print("Loading FinBERT model...")
     tokenizer, model = load_finbert()
     
-    print("Extracting text from PDF-like content...")
-    financial_report = extract_text_from_pdf_like_content(pdf_content)
+    print("Using extracted PDF text...")
+    financial_report = pdf_content
     print(f"Extracted text length: {len(financial_report)} characters")
     
     print("Preprocessing text...")
