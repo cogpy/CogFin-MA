@@ -207,7 +207,7 @@ tidecv==1.0.1
 tifffile==2025.3.30
 timm==1.0.15
 tokenizers==0.21.0
-torch==2.5.1
+torch==2.7.0
 torchaudio==2.5.1
 TorchCRF==1.1.0
 torchmetrics @ file:///C:/b/abs_48qthtgayb/croot/torchmetrics_1719910146970/work
