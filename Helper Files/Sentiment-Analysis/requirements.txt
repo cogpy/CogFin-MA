@@ -212,7 +212,7 @@ torchaudio==2.5.1
 TorchCRF==1.1.0
 torchmetrics @ file:///C:/b/abs_48qthtgayb/croot/torchmetrics_1719910146970/work
 torchvision==0.20.1
-tornado==6.4.2
+tornado==6.5.1
 tqdm @ file:///C:/b/abs_77wju137gk/croot/tqdm_1724853945787/work
 traitlets==5.14.3
 transformers==4.50.0
