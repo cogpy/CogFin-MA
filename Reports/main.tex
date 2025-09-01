@@ -1,4 +1,4 @@
-% arXiv-friendly LaTeX for FIND-MA (full content)
+% arXiv-friendly LaTeX for FIND-MA (with figure + footer link)
 \pdfoutput=1
 
 \documentclass[11pt]{article}
@@ -19,7 +19,7 @@
 
 % ---------- Graphics ----------
 \usepackage{graphicx}
-\graphicspath{{figures/}} % put figures in ./figures
+\graphicspath{{figures/}{./}} % looks in ./figures and project root
 \usepackage{caption}
 \usepackage{subcaption}
 
@@ -51,6 +51,15 @@
 % ---------- Author/affiliation ----------
 \usepackage{authblk}
 
+% ---------- Footer with repo link ----------
+\usepackage{fancyhdr}
+\fancypagestyle{firstpage}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \fancyfoot[C]{\footnotesize Project repository: \href{https://github.com/Finance-LLMs/FIND-MA}{github.com/Finance-LLMs/FIND-MA}}
+}
+
 % ---------- Macros ----------
 \newcommand{\findma}{\textsc{FIND-MA}}
 \newcommand{\etal}{\textit{et al.}}
@@ -67,12 +76,13 @@ for Fundamental Company Analysis and Financial Insight}
 
 \begin{document}
 \maketitle
+\thispagestyle{firstpage}
 
 \begin{abstract}
 In this work, we introduce \textbf{\findma{}} (\textbf{F}inancial \textbf{I}nsight via a \textbf{N}etwork of \textbf{D}istributed \textbf{M}ulti-\textbf{A}gents), a Retrieval-Augmented Generation (RAG)-based multi-agent framework for fundamental company analysis aimed at enhancing financial decision-making. \findma{} leverages the reasoning capabilities of state-of-the-art large language models, including DeepSeek-R1 and Qwen3, which combine structured inference with deep contextual understanding. The framework orchestrates a network of specialized agents, each responsible for evaluating a distinct aspect of a company—such as financial health, market positioning, leadership quality, and strategic risk. These agents collaborate via a shared memory and inter-agent dialogue mechanism, enabling structured, multi-perspective analysis. By aggregating insights across roles, \findma{} produces explainable, data-driven evaluations to support investors, analysts, and decision-makers. This work contributes toward building trustworthy, modular AI systems for financial due diligence and corporate valuation.
 \end{abstract}
 
-% \textbf{Keywords:} retrieval-augmented generation, multi-agent systems, financial NLP, explainability
+\textbf{Keywords:} retrieval-augmented generation, multi-agent systems, financial NLP, explainability
 
 \section{Introduction}
 \label{sec:intro}
@@ -120,6 +130,14 @@ Datasets such as \texttt{EDGAR}, \texttt{FinancialPhraseBank}, and \texttt{FinSt
 \section{System Overview}
 \label{sec:overview}
 \textbf{\findma{}} (\textit{Financial Insight via a Network of Distributed Multi-Agents}) is a modular framework designed to produce explainable, high-resolution company analyses by combining retrieval-augmented generation (RAG) with a coordinated multi-agent reasoning pipeline. Unlike monolithic LLM systems, \findma{} decomposes the analysis into multiple specialized agents that operate over a shared evidence base and asynchronously contribute to a collective financial report.
+
+% --- Architecture figure added here ---
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{system-arch-diagram.png}
+  \caption{High-level architecture of \findma{}. A Retrieval Engine feeds role-specialized agents (Sentiment, Stock Price Correlator, News, Strategic \& Financial Health) operating over a Shared Memory Store. A Synthesis (meta-)agent compiles evidence-grounded insights into the final financial report.}
+  \label{fig:system-arch}
+\end{figure}
 
 \subsection*{Architectural Components}
 The system is composed of five primary components:
