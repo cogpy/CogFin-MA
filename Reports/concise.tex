@@ -1,0 +1,202 @@
+% arXiv-friendly LaTeX template for FIND-MA
+% - No venue-specific class
+% - Clean typography & refs
+% - Sensible defaults for figures/tables/links
+\pdfoutput=1
+
+\documentclass[11pt]{article}
+
+% ---------- Encoding & fonts ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}  % high-quality Latin Modern font
+\usepackage{microtype} % better kerning/justification
+
+% ---------- Geometry & spacing ----------
+\usepackage[a4paper,margin=1in]{geometry}
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+
+% ---------- Math & symbols ----------
+\usepackage{amsmath,amssymb,amsfonts}
+
+% ---------- Graphics ----------
+\usepackage{graphicx}
+\graphicspath{{figures/}} % put your figures in ./figures
+\usepackage{caption}
+\usepackage{subcaption}
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.2em}
+\setlist[enumerate]{leftmargin=1.4em}
+
+% ---------- Links & references ----------
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=blue,
+  urlcolor=blue,
+  pdfauthor={Vikranth Udandarao, Akshat Parmar},
+  pdftitle={FIND-MA: A Retrieval-Augmented Multi-Agent Framework for Fundamental Company Analysis and Financial Insight}
+}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+% ---------- Code/mono font ----------
+\usepackage{inconsolata}
+
+% ---------- Author/affiliation block ----------
+\usepackage{authblk}
+
+% ---------- Macros ----------
+\newcommand{\findma}{\textsc{FIND-MA}}
+\newcommand{\etal}{\textit{et al.}}
+
+\title{FIND-MA: A Retrieval-Augmented Multi-Agent Framework\\
+for Fundamental Company Analysis and Financial Insight}
+
+\author[1]{Vikranth Udandarao}
+\author[1]{Akshat Parmar}
+\affil[1]{IIIT Delhi, India}
+\affil[ ]{\texttt{\{vikranth22570, akshat22050\}@iiitd.ac.in}}
+
+\date{} % arXiv: usually leave empty
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\findma{} (\textbf{F}inancial \textbf{I}nsight via a \textbf{N}etwork of \textbf{D}istributed \textbf{M}ulti-\textbf{A}gents) is a retrieval-augmented multi-agent framework for fundamental company analysis aimed at enhancing financial decision-making. The system leverages state-of-the-art large language models (DeepSeek-R1 and Qwen3) and orchestrates specialized agents---financial health, market positioning, leadership quality, and strategic risk---that collaborate via shared memory and inter-agent dialogue to produce explainable, data-grounded evaluations. By aggregating role-specific insights, \findma{} generates modular outputs such as SWOT analyses, strategic risk profiles, and financial health assessments, offering transparent and traceable reasoning for investors and analysts. This paper contributes a practical path toward trustworthy, modular AI systems for due diligence and valuation.
+\end{abstract}
+
+% Optional: keywords (arXiv doesn't render them specially, but many readers appreciate them)
+\textbf{Keywords:} retrieval-augmented generation, multi-agent systems, financial NLP, explainability
+
+\section{Introduction}
+\label{sec:intro}
+In today’s increasingly data-driven financial ecosystem, evaluating a company’s intrinsic value requires analyzing diverse sources---financial statements, earnings call transcripts, news coverage, and market sentiment. While large language models (LLMs) show promise in summarization and information extraction, their application to financial decision-making is limited by factual grounding, explainability, and modularity. Existing tools often act as black-box summarizers or lack structured reasoning needed for high-stakes evaluations.
+
+Conventional single-agent systems and retrieval-based assistants (e.g., You.com, Perplexity AI) offer content aggregation but struggle with long-horizon consistency, interpretability, and role specialization. Even advanced frameworks like Grok Think and Grok DeepSearch improve retrieval and synthesis yet fall short at coordinating distributed reasoning across analytical dimensions (financial health, market dynamics, managerial performance).
+
+To address these gaps, we introduce \findma{}, a retrieval-augmented multi-agent framework for fundamental analysis. Specialized agents (sentiment, stock-price correlation, risk assessment, news integration) collaborate via shared memory and inter-agent dialogue for structured, explainable, and modular evaluations. We deploy DeepSeek-R1 and Qwen3 for role-conditioned reasoning over a curated corpus of five years of annual reports, earnings transcripts, and company news spanning 30+ firms and multiple sectors.
+
+\textbf{Contributions.} (i) A modular, explainable, RAG-based multi-agent framework for financial analysis; (ii) Role-specialized agents powered by DeepSeek-R1 and Qwen3 for sentiment, price events, strategy, and risk; (iii) A curated, time-aligned retrieval corpus to ground agent reasoning; (iv) Case studies and expert review indicating factual alignment, interpretability, and coverage.
+
+\section{Related Work}
+\label{sec:related}
+\paragraph{Retrieval-Augmented Generation in Finance.}
+RAG integrates dense retrieval with generation for knowledge-intensive tasks \citep{lewis2020retrieval}. Open-domain systems (e.g., Perplexity, You.com) adopt similar patterns but lack long-context memory, domain grounding, and role separation essential for financial understanding. Systems like Grok DeepSearch/Think enhance structure yet still struggle with temporal coherence and multi-hop synthesis.
+
+\paragraph{Financial Language Models and Tools.}
+FinBERT \citep{araci2019finbert} targets sentiment and intent on finance text; BloombergGPT \citep{wu2023bloomberggpt} scales pretraining on mixed corpora. Many operate as monoliths without decomposition or interpretability layers. Commercial stacks (e.g., Manus AI) provide pipelines but offer limited transparency into reasoning.
+
+\paragraph{Multi-Agent Reasoning.}
+Agentic frameworks such as CAMEL \citep{li2023camel}, AutoGPT, and ReAct \citep{yao2023react} explore task decomposition and communication. Their application to finance remains underdeveloped, especially integrating RAG with role-specific, explainable outputs.
+
+\paragraph{Explainability.}
+Classical XAI focuses on model introspection and post-hoc analyses \citep{arrieta2020explainable}, which rarely capture provenance in generative settings. \findma{} embeds explainability architecturally via role separation, shared memory, and evidence-linked outputs.
+
+\section{System Overview}
+\label{sec:overview}
+\findma{} combines RAG with a coordinated multi-agent pipeline. Rather than a single LLM pass, specialized agents operate over a shared evidence base and contribute to a final report.
+
+\paragraph{Architectural Components.}
+\textbf{Retrieval Engine:} FAISS-based dense retrieval over curated filings, transcripts, and news (five years, 30+ companies), filtered by relevance and time. 
+\textbf{Agent Network:} Role-specific agents (e.g., Sentiment, Stock-Price Correlator, News, Strategic \& Financial Health) with prompt templates and model routing (DeepSeek-R1 for multi-hop, Qwen3 for lighter tasks).
+\textbf{Shared Memory:} Persistent store for inter-agent references and traceability.
+\textbf{LLM Inference Layer:} Dynamic selection between DeepSeek-R1 and Qwen3.
+\textbf{Report Synthesizer:} Compiles SWOT, risks, sentiment, and commentary with links to evidence and agent provenance.
+
+\paragraph{Design Principles.}
+Explainability (evidence-linked outputs), Modularity (plug-and-play agents), and Factual Grounding (retrieval-conditioned generation).
+
+\section{Methodology}
+\label{sec:methodology}
+\paragraph{Preprocessing.}
+Entity resolution (company, sector, ticker), chunking long documents (300--500 words, overlap), and metadata tagging (company, year, source type). Retrieved text is embedded into role-specific prompts.
+
+\paragraph{RAG Layer.}
+Top-$k$ semantic retrieval (cosine similarity), optional re-ranking (keywords/recency), and temporal filtering to avoid hindsight leakage.
+
+\paragraph{Agent Reasoning Cycle.}
+(1) Role initialization; (2) Context retrieval; (3) Inference (DeepSeek-R1/Qwen3; optional chain-of-thought/self-reflection); (4) Memory write-back with metadata for downstream agents.
+
+\paragraph{Inter-Agent Dialogue.}
+Asynchronous coordination via shared memory: cross-referencing (e.g., Sentiment cites News), conflict flags (e.g., positive tone vs. falling price), and provenance retention.
+
+\paragraph{Report Synthesis.}
+Outputs aggregated into Executive Summary, SWOT, Financial Health, and Strategic Risk/Sentiment Trends. Reports can render as Markdown, JSON, or web UI.
+
+\section{Agent Roles and Specialization}
+\label{sec:agents}
+\textbf{Sentiment Analysis Agent.} Speaker-aware tone analysis (CEO vs.\ analyst), temporal tracking, bullish/neutral/bearish classification over concalls/press releases (DeepSeek-R1).
+
+\textbf{Stock Price Correlator.} Aligns textual events with price windows; generates causal hypotheses and planned visual summaries (DeepSeek-R1).
+
+\textbf{News Agent.} Surfaces events, links to risks/opportunities, evaluates tone/credibility (Qwen3).
+
+\textbf{Strategic \& Financial Health Agent.} Capital structure, revenue/margins, debt, strategy from filings; ratio-based assessments (planned) and outlook commentary (DeepSeek-R1).
+
+\textbf{Report Synthesis (Meta-Agent).} Assembles summaries, flags cross-agent conflicts, exports human-readable and JSON outputs (Qwen3/DeepSeek-R1).
+
+\section{Dataset}
+\label{sec:dataset}
+\paragraph{Motivation.}
+Existing corpora (e.g., FinancialPhraseBank, FinStatements) lack longitudinal, multi-document, and sector-aware annotations needed for multi-agent reasoning.
+
+\paragraph{Composition.}
+500+ documents across 30+ companies in pharmaceuticals, semiconductors, telecom, technology, and defense: (i) Annual reports (2019–2024), (ii) earnings call transcripts (by quarter, speaker), (iii) timestamped news, (iv) manual summaries.
+
+\paragraph{Metadata \& Storage.}
+JSONL with \texttt{company\_name}, \texttt{year}, \texttt{sector}, \texttt{source\_type}, \texttt{chunk\_id}, \texttt{summary}, \texttt{source\_url}. FAISS index with SentenceTransformers (finance-tuned) embeddings.
+
+\paragraph{Quality Control.}
+Manual validation for sector relevance and coverage; iterative refinement of chunking and prompt injection via early agent runs.
+
+\section{System Implementation}
+\label{sec:implementation}
+\paragraph{Stack.}
+Python; DeepSeek-R1/Qwen3 via Transformers + vLLM; FAISS retrieval; memory via Python dict/Redis; Jinja2 prompt templates; Streamlit UI (planned).
+
+\paragraph{Lifecycle.}
+Init $\to$ retrieval $\to$ prompt construction $\to$ inference $\to$ memory write-back.
+
+\paragraph{Execution Model.}
+Parallel agents where independent (News/Sentiment), sequential where dependent (Synthesis). Logs/timestamps for latency and debugging.
+
+\paragraph{Extensibility.}
+Add ESG/macro agents by defining retrieval scope, prompts, and outputs. Lightweight benchmarking for model routing. REST API (in progress).
+
+\section{Evaluation and Results}
+\label{sec:evaluation}
+\paragraph{Setup.}
+20 companies across six sectors; five-year window; human evaluators from finance/analytics.
+
+\paragraph{Metrics.}
+Factual Accuracy (1–5), Interpretability (1–5), Relevance (1–5), Cross-Agent Consistency (\%), and Latency (s).
+
+\paragraph{Results.}
+Accuracy $4.3\pm0.4$; Interpretability $4.5\pm0.3$; Relevance $4.2\pm0.5$; Consistency 86\%; Latency $42.7$s (A100). Reviewers highlighted transparency and grounding; limitations include table parsing, transcript ambiguity, and occasional verbosity.
+
+\paragraph{Ablations.}
+Versus a single-prompt DeepSeek baseline, \findma{} yields better traceability, higher inter-reviewer agreement, and lower hallucination via role-specific control.
+
+\section{Future Work and Conclusion}
+\label{sec:conclusion}
+\paragraph{Future Work.}
+Expand agents (ESG, macro, policy), integrate table/chart parsing (e.g., Donut/ChartQA), add human-in-the-loop feedback, ship interactive Streamlit UI, and extend to non-English markets and private firms/ESG disclosures.
+
+\paragraph{Conclusion.}
+\findma{} demonstrates that RAG + multi-agent specialization improves explainability and grounding for financial analysis. The architecture offers a practical base for trustworthy AI tooling in finance.
+
+% ------------- Bibliography -------------
+\bibliographystyle{plainnat}
+\bibliography{custom}
+
+\end{document}
