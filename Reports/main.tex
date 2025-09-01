@@ -1,344 +1,138 @@
-% This must be in the first 5 lines to tell arXiv to use pdfLaTeX, which is strongly recommended.
+% arXiv-friendly LaTeX for FIND-MA (full content)
 \pdfoutput=1
-% In particular, the hyperref package requires pdfLaTeX in order to break URLs across lines.
 
 \documentclass[11pt]{article}
 
-% Change "review" to "final" to generate the final (sometimes called camera-ready) version.
-% Change to "preprint" to generate a non-anonymous version with page numbers.
-\usepackage[preprint]{acl}
-
-% Standard package includes
-\usepackage{times}
-\usepackage{latexsym}
-
-% For proper rendering and hyphenation of words containing Latin characters (including in bib files)
+% ---------- Encoding & fonts ----------
 \usepackage[T1]{fontenc}
-% For Vietnamese characters
-% \usepackage[T5]{fontenc}
-% See https://www.latex-project.org/help/documentation/encguide.pdf for other character sets
-
-% This assumes your files are encoded as UTF8
 \usepackage[utf8]{inputenc}
-
-% This is not strictly necessary, and may be commented out,
-% but it will improve the layout of the manuscript,
-% and will typically save some space.
+\usepackage{lmodern}
 \usepackage{microtype}
 
-% This is also not strictly necessary, and may be commented out.
-% However, it will improve the aesthetics of text in
-% the typewriter font.
+% ---------- Geometry & spacing ----------
+\usepackage[a4paper,margin=1in]{geometry}
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+
+% ---------- Math & symbols ----------
+\usepackage{amsmath,amssymb,amsfonts}
+
+% ---------- Graphics ----------
+\usepackage{graphicx}
+\graphicspath{{figures/}} % put figures in ./figures
+\usepackage{caption}
+\usepackage{subcaption}
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.2em}
+\setlist[enumerate]{leftmargin=1.4em}
+
+% ---------- Links & references ----------
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=blue,
+  urlcolor=blue,
+  pdfauthor={Vikranth Udandarao, Akshat Parmar},
+  pdftitle={FIND-MA: A Retrieval-Augmented Multi-Agent Framework for Fundamental Company Analysis and Financial Insight}
+}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+% ---------- Code/mono font ----------
 \usepackage{inconsolata}
 
-%Including images in your LaTeX document requires adding
-%additional package(s)
-\usepackage{graphicx}
-\usepackage{amsmath}
+% ---------- Author/affiliation ----------
+\usepackage{authblk}
 
-% If the title and author information does not fit in the area allocated, uncomment the following
-%
-%\setlength\titlebox{<dim>}
-%
-% and set <dim> to something 5cm or larger.
+% ---------- Macros ----------
+\newcommand{\findma}{\textsc{FIND-MA}}
+\newcommand{\etal}{\textit{et al.}}
 
-\title{FIND-MA: A Retrieval-Augmented Multi-Agent Framework for Fundamental Company Analysis and Financial Insight}
+\title{FIND-MA: A Retrieval-Augmented Multi-Agent Framework\\
+for Fundamental Company Analysis and Financial Insight}
 
-% Author information can be set in various styles:
-% For several authors from the same institution:
-% \author{Author 1 \and ... \and Author n \\
-%         Address line \\ ... \\ Address line}
-% if the names do not fit well on one line use
-%         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
-% For authors from different institutions:
-% \author{Author 1 \\ Address line \\  ... \\ Address line
-%         \And  ... \And
-%         Author n \\ Address line \\ ... \\ Address line}
-% To start a separate ``row'' of authors use \AND, as in
-% \author{Author 1 \\ Address line \\  ... \\ Address line
-%         \AND
-%         Author 2 \\ Address line \\ ... \\ Address line \And
-%         Author 3 \\ Address line \\ ... \\ Address line}
+\author[1]{Vikranth Udandarao}
+\author[1]{Akshat Parmar}
+\affil[1]{IIIT Delhi, India}
+\affil[ ]{\texttt{\{vikranth22570, akshat22050\}@iiitd.ac.in}}
 
-\author{Vikranth Udandarao \\
-  IIIT Delhi, India \\
-  \texttt{vikranth22570@iiitd.ac.in} \\\And
-  Akshat Parmar \\
-  IIIT Delhi, India \\
-  \texttt{akshat22050@iiitd.ac.in}}
-
-%\author{
-%  \textbf{First Author\textsuperscript{1}},
-%  \textbf{Second Author\textsuperscript{1,2}},
-%  \textbf{Third T. Author\textsuperscript{1}},
-%  \textbf{Fourth Author\textsuperscript{1}},
-%\\
-%  \textbf{Fifth Author\textsuperscript{1,2}},
-%  \textbf{Sixth Author\textsuperscript{1}},
-%  \textbf{Seventh Author\textsuperscript{1}},
-%  \textbf{Eighth Author \textsuperscript{1,2,3,4}},
-%\\
-%  \textbf{Ninth Author\textsuperscript{1}},
-%  \textbf{Tenth Author\textsuperscript{1}},
-%  \textbf{Eleventh E. Author\textsuperscript{1,2,3,4,5}},
-%  \textbf{Twelfth Author\textsuperscript{1}},
-%\\
-%  \textbf{Thirteenth Author\textsuperscript{3}},
-%  \textbf{Fourteenth F. Author\textsuperscript{2,4}},
-%  \textbf{Fifteenth Author\textsuperscript{1}},
-%  \textbf{Sixteenth Author\textsuperscript{1}},
-%\\
-%  \textbf{Seventeenth S. Author\textsuperscript{4,5}},
-%  \textbf{Eighteenth Author\textsuperscript{3,4}},
-%  \textbf{Nineteenth N. Author\textsuperscript{2,5}},
-%  \textbf{Twentieth Author\textsuperscript{1}}
-%\\
-%\\
-%  \textsuperscript{1}Affiliation 1,
-%  \textsuperscript{2}Affiliation 2,
-%  \textsuperscript{3}Affiliation 3,
-%  \textsuperscript{4}Affiliation 4,
-%  \textsuperscript{5}Affiliation 5
-%\\
-%  \small{
-%    \textbf{Correspondence:} \href{mailto:email@domain}{email@domain}
-%  }
-%}
+\date{} % leave empty for arXiv
 
 \begin{document}
 \maketitle
+
 \begin{abstract}
-In this work, we introduce \textbf{FIND-MA} (\textbf{F}inancial \textbf{I}nsight via a \textbf{N}etwork of \textbf{D}istributed \textbf{M}ulti-\textbf{A}gents), a Retrieval-Augmented Generation (RAG)-based multi-agent framework for fundamental company analysis aimed at enhancing financial decision-making. \textbf{FIND-MA} leverages the reasoning capabilities of state-of-the-art large language models, including DeepSeek-R1 and Qwen3, which combine structured inference with deep contextual understanding. The framework orchestrates a network of specialized agents, each responsible for evaluating a distinct aspect of a company—such as financial health, market positioning, leadership quality, and strategic risk. These agents collaborate via a shared memory and inter-agent dialogue mechanism, enabling structured, multi-perspective analysis. By aggregating insights across roles, \textbf{FIND-MA} produces explainable, data-driven evaluations to support investors, analysts, and decision-makers. This work contributes toward building trustworthy, modular AI systems for financial due diligence and corporate valuation.
+In this work, we introduce \textbf{\findma{}} (\textbf{F}inancial \textbf{I}nsight via a \textbf{N}etwork of \textbf{D}istributed \textbf{M}ulti-\textbf{A}gents), a Retrieval-Augmented Generation (RAG)-based multi-agent framework for fundamental company analysis aimed at enhancing financial decision-making. \findma{} leverages the reasoning capabilities of state-of-the-art large language models, including DeepSeek-R1 and Qwen3, which combine structured inference with deep contextual understanding. The framework orchestrates a network of specialized agents, each responsible for evaluating a distinct aspect of a company—such as financial health, market positioning, leadership quality, and strategic risk. These agents collaborate via a shared memory and inter-agent dialogue mechanism, enabling structured, multi-perspective analysis. By aggregating insights across roles, \findma{} produces explainable, data-driven evaluations to support investors, analysts, and decision-makers. This work contributes toward building trustworthy, modular AI systems for financial due diligence and corporate valuation.
 \end{abstract}
 
-
-
-
+% \textbf{Keywords:} retrieval-augmented generation, multi-agent systems, financial NLP, explainability
 
 \section{Introduction}
 \label{sec:intro}
-
 In today’s increasingly data-driven financial ecosystem, evaluating a company’s intrinsic value requires analyzing a wide array of sources—ranging from financial statements and earnings call transcripts to news coverage and market sentiment. While large language models (LLMs) have recently shown promise in generating summaries and extracting information, their application to financial decision-making remains limited by issues of factual grounding, explainability, and modularity. Most existing tools either act as black-box summarizers or lack the structured reasoning required to support high-stakes evaluations.
 
 Conventional single-agent systems and retrieval-based assistants—such as You.com and Perplexity AI—offer content aggregation but struggle with long-horizon consistency, interpretability, and role specialization. Even advanced frameworks like Grok Think and Grok DeepSearch provide improved retrieval and synthesis capabilities but fall short in coordinating distributed reasoning across multiple analytical dimensions, such as financial health, market dynamics, and managerial performance. These gaps restrict their utility in contexts where explainable, multi-perspective reasoning is essential.
 
-To address these challenges, we introduce \textbf{FIND-MA} (\textbf{F}inancial \textbf{I}nsight via a \textbf{N}etwork of \textbf{D}istributed \textbf{M}ulti-\textbf{A}gents), a Retrieval-Augmented Generation (RAG)-based multi-agent framework for fundamental company analysis. FIND-MA orchestrates a set of specialized agents, each responsible for a distinct analytical function—such as sentiment analysis, stock-price correlation, risk assessment, or news integration. These agents collaborate asynchronously via a shared memory and inter-agent dialogue protocol, enabling structured, modular, and explainable evaluations.
+To address these challenges, we introduce \textbf{\findma{}} (\textbf{F}inancial \textbf{I}nsight via a \textbf{N}etwork of \textbf{D}istributed \textbf{M}ulti-\textbf{A}gents), a Retrieval-Augmented Generation (RAG)-based multi-agent framework for fundamental company analysis. \findma{} orchestrates a set of specialized agents, each responsible for a distinct analytical function—such as sentiment analysis, stock-price correlation, risk assessment, or news integration. These agents collaborate asynchronously via a shared memory and inter-agent dialogue protocol, enabling structured, modular, and explainable evaluations.
 
-At the core of FIND-MA are state-of-the-art LLMs—\textbf{DeepSeek-R1} and \textbf{Qwen3}—selected after empirical comparison for their superior performance in multi-hop reasoning, structured inference, and financial domain grounding. Each agent uses these models in role-specific contexts to extract insights from a curated retrieval base that includes five years of annual reports, earnings transcripts, and company news.
+At the core of \findma{} are state-of-the-art LLMs—\textbf{DeepSeek-R1} and \textbf{Qwen3}—selected after empirical comparison for their superior performance in multi-hop reasoning, structured inference, and financial domain grounding. Each agent uses these models in role-specific contexts to extract insights from a curated retrieval base that includes five years of annual reports, earnings transcripts, and company news.
 
 To support this pipeline, we manually analyzed and annotated data from 30+ companies across sectors including pharmaceuticals, telecommunications, technology, and defense. The dataset forms the retrieval backbone of the RAG system, enabling agents to ground their reasoning in verified, time-aligned, and sector-aware information.
 
-FIND-MA produces structured outputs such as SWOT analyses, strategic risk profiles, and financial health assessments—each aligned with the source content and traceable to the contributing agents. The system has been evaluated through detailed case studies and human expert review, showing strong alignment with analyst expectations in terms of factual accuracy, interpretability, and coverage.
+\findma{} produces structured outputs such as SWOT analyses, strategic risk profiles, and financial health assessments—each aligned with the source content and traceable to the contributing agents. The system has been evaluated through detailed case studies and human expert review, showing strong alignment with analyst expectations in terms of factual accuracy, interpretability, and coverage.
 
-\vspace{1em}
-\noindent\textbf{Contributions:}
+\textbf{Contributions:}
 \begin{itemize}
     \item We propose a novel RAG-based multi-agent framework that supports modular, explainable financial analysis through role-specialized agent collaboration.
     \item We develop and integrate agents powered by DeepSeek-R1 and Qwen3, each focused on distinct reasoning dimensions such as price trends, sentiment, and strategy.
     \item We construct a high-quality dataset of corporate reports and transcripts spanning five years and 30+ companies to ground agent reasoning in sector-specific evidence.
-    \item We demonstrate, through case studies and expert evaluation, that FIND-MA delivers coherent, transparent, and decision-ready outputs for company evaluation.
+    \item We demonstrate, through case studies and expert evaluation, that \findma{} delivers coherent, transparent, and decision-ready outputs for company evaluation.
 \end{itemize}
-
-
-
-
-
 
 \section{Related Work}
 \label{sec:related}
 
-Recent advancements in large language models (LLMs) and retrieval-augmented generation (RAG) pipelines have significantly improved the scope of AI systems for financial analysis and decision-making. However, most existing approaches either rely on monolithic, single-agent models or use retrieval augmentation without explicit multi-agent coordination or role specialization. \textbf{FIND-MA} builds upon these foundations by introducing a modular, role-driven architecture tailored to the domain of fundamental company analysis.
+\paragraph{Retrieval-Augmented Generation in Financial Systems.}
+Retrieval-Augmented Generation (RAG) has emerged as a powerful paradigm for grounding language model outputs in factual knowledge. Lewis \etal~\cite{lewis2020retrieval} introduced RAG by integrating dense retrieval with generative modeling for knowledge-intensive NLP tasks. Tools such as \textbf{Perplexity AI} and \textbf{You.com} have adopted similar approaches for real-time query answering. While these systems are effective in open-domain contexts, they lack domain grounding, long-context memory, and agent-level role separation essential for financial document understanding. Systems like \textbf{Grok DeepSearch} and \textbf{Grok Think} enhance structured retrieval but struggle with temporal coherence, multi-hop reasoning, and structured output synthesis—key challenges that \findma{} addresses through inter-agent collaboration and retrieval-specific attention.
 
-\subsection*{Retrieval-Augmented Generation in Financial Systems}
-
-Retrieval-Augmented Generation (RAG) has emerged as a powerful paradigm for grounding language model outputs in factual knowledge. Lewis et al.~\cite{lewis2020retrieval} introduced RAG by integrating dense retrieval with generative modeling for knowledge-intensive NLP tasks. Tools such as \textbf{Perplexity AI} and \textbf{You.com} have adopted similar approaches for real-time query answering. While these systems are effective in open-domain contexts, they lack domain grounding, long-context memory, and agent-level role separation essential for financial document understanding.
-
-Systems like \textbf{Grok DeepSearch} and \textbf{Grok Think} enhance structured retrieval but struggle with temporal coherence, multi-hop reasoning, and structured output synthesis—key challenges that \textbf{FIND-MA} addresses through inter-agent collaboration and retrieval-specific attention.
-
-\subsection*{Financial Language Models and Analysis Tools}
-
+\paragraph{Financial Language Models and Analysis Tools.}
 Domain-specific models such as \textbf{FinBERT}~\cite{araci2019finbert} have been fine-tuned on earnings calls and financial filings for sentiment and intent classification. More recently, \textbf{BloombergGPT}~\cite{wu2023bloomberggpt} demonstrated the utility of training large models on mixed financial and general corpora. While effective, these models typically operate in a single-pass, monolithic fashion without decomposition into analytical roles or interpretability layers. \textbf{Manus AI} offers a commercial-grade pipeline for financial and legal domains, yet its black-box nature and absence of agentic reasoning limit transparency.
 
-\subsection*{Multi-Agent Reasoning Frameworks}
+\paragraph{Multi-Agent Reasoning Frameworks.}
+Multi-agent coordination frameworks such as \textbf{CAMEL}~\cite{li2023camel}, \textbf{AutoGPT}, and \textbf{ReAct}~\cite{yao2023react} have explored task decomposition using agent roles and inter-agent communication. These architectures enable dynamic reasoning and memory sharing but have been largely demonstrated on general tasks like puzzles, coding, or open-ended Q\&A. Their application to finance remains underdeveloped, particularly in integrating RAG and generating role-specific explainable outputs. \findma{} extends this line of work by grounding each agent’s inference in curated financial documents and facilitating collaborative decision flows.
 
-Multi-agent coordination frameworks such as \textbf{CAMEL}~\cite{li2023camel}, \textbf{AutoGPT}, and \textbf{ReAct}~\cite{yao2023react} have explored task decomposition using agent roles and inter-agent communication. These architectures enable dynamic reasoning and memory sharing but have been largely demonstrated on general tasks like puzzles, coding, or open-ended Q\&A. Their application to finance remains underdeveloped, particularly in integrating RAG and generating role-specific explainable outputs. FIND-MA extends this line of work by grounding each agent’s inference in curated financial documents and facilitating collaborative decision flows.
+\paragraph{Explainable AI in Finance.}
+Explainability in financial AI systems is essential due to the high stakes of investment decisions and regulatory requirements. Prior work on explainable AI (XAI)~\cite{arrieta2020explainable} focuses primarily on model introspection, attention visualization, or post-hoc rule extraction. However, these methods often fall short in capturing reasoning provenance in generative models. In contrast, \findma{} embeds explainability into the system’s architecture by allowing each agent to contribute modular, traceable insights supported by retrieved evidence and shared memory logs, thus aligning with the principles of transparent decision support.
 
-\subsection*{Explainable AI in Finance}
-
-Explainability in financial AI systems is essential due to the high stakes of investment decisions and regulatory requirements. Prior work on explainable AI (XAI)~\cite{arrieta2020explainable} focuses primarily on model introspection, attention visualization, or post-hoc rule extraction. However, these methods often fall short in capturing reasoning provenance in generative models. In contrast, FIND-MA embeds explainability into the system’s architecture by allowing each agent to contribute modular, traceable insights supported by retrieved evidence and shared memory logs, thus aligning with the principles of transparent decision support.
-
-\subsection*{Datasets for Financial NLP}
-
+\paragraph{Datasets for Financial NLP.}
 Datasets such as \texttt{EDGAR}, \texttt{FinancialPhraseBank}, and \texttt{FinStatements} have supported advances in financial NLP, particularly in relation to earnings call analysis and sentiment prediction. However, these datasets lack multi-document alignment, sector diversity, and annotations for inter-agent synthesis. To overcome this, we curated a proprietary retrieval corpus comprising five years of annual reports, investor transcripts, and press coverage from over 30 companies across multiple sectors, supplemented by open-source financial corpora for broader generalization.
 
-\subsection*{Our Contribution}
-
-FIND-MA is the first system to unify retrieval-augmented generation, LLM-based specialization, and decentralized multi-agent collaboration for explainable financial analysis. Built atop \textbf{DeepSeek-R1} and \textbf{Qwen3}, the system orchestrates reasoning across agents focused on specific dimensions—financial signals, market dynamics, sentiment, and risk. Outputs such as SWOT analyses and executive summaries are traceable, modular, and grounded in curated evidence, offering a scalable and transparent solution for analysts, investors, and policy advisors.
-
-
-
-
-
-
-% \section{Methodology}
-% \label{sec:methodology}
-
-% The architecture of \textbf{FIND-MA} (\textbf{F}inancial \textbf{I}nsight via a \textbf{N}etwork of \textbf{D}istributed \textbf{M}ulti-\textbf{A}gents) is built around a set of four specialized agents, each tasked with analyzing a different dimension of company fundamentals. These agents are orchestrated within a Retrieval-Augmented Generation (RAG) framework that provides shared access to structured knowledge retrieved from financial reports, market data, and external sources.
-
-% \subsection{RAG Backbone for Agent Collaboration}
-% At the foundation of FIND-MA lies a RAG pipeline. Documents (e.g., PDF financial reports) are loaded using \texttt{PyPDF2}, chunked via LangChain's \texttt{RecursiveCharacterTextSplitter}, and embedded using HuggingFace's \texttt{all-MiniLM-L6-v2}. The chunks are indexed in FAISS, enabling efficient semantic retrieval.
-
-% When a user issues a query, each agent retrieves relevant context from the vector store. These contexts are then passed to the \texttt{deepseek-r1} model via the Ollama API to generate grounded, domain-specific responses.
-
-% \subsection{Reports Agent}
-% This agent focuses on company filings such as annual reports, investor presentations, and regulatory documents. It uses the RAG system to extract relevant disclosures, summaries, and forward-looking statements.
-
-% \textbf{Capabilities:}
-% \begin{itemize}
-% \item Financial health evaluation (e.g., revenue, profits, margins)
-% \item Strategic direction and executive commentary
-% \item Risk factors and compliance disclosures
-% \end{itemize}
-
-% \subsection{Sentiment Analysis Agent}
-% The sentiment agent processes long-form financial documents to detect sentiment polarity and tone shifts.
-
-% \textbf{Pipeline:}
-% \begin{itemize}
-% \item Text segments are sampled and classified into positive, negative, or neutral sentiment
-% \item Aggregated scores are summarized using an LLM to contextualize their significance relative to the query
-% \item Visualizations and highlights of emotionally charged passages are generated
-% \end{itemize}
-
-% \subsection{News Agent}
-% This agent collects and summarizes recent news events involving the company, either via real-time APIs or predefined samples.
-
-% \textbf{Outputs:}
-% \begin{itemize}
-% \item Sentiment-weighted summaries of news coverage
-% \item Highlights of developments with potential market impact
-% \item Headline extraction and keyword mapping
-% \end{itemize}
-
-% \subsection{Stock Price Agent}
-% The stock agent focuses on historical price data and technical indicators. It identifies trends and anomalies in the market performance of the company's stock.
-
-% \textbf{Analysis Includes:}
-% \begin{itemize}
-% \item Moving averages, volatility, and price momentum
-% \item Integration with LLMs to interpret market shifts
-% \item Comparative analysis across time windows
-% \end{itemize}
-
-% \subsection{Integrated Financial Reasoning}
-% Once all agents have completed their independent analysis, their outputs are combined into a final structured prompt. This comprehensive prompt is submitted to the LLM to produce a professional financial intelligence report that:
-% \begin{enumerate}
-% \item Synthesizes document content, sentiment, news, and price data
-% \item Aligns insights across modalities
-% \item Offers explainable summaries and forward-looking insights
-% \end{enumerate}
-
-% \subsection{Interactive System}
-% An interactive interface allows users to specify the company, ticker, and question. Analysis results are displayed in tabbed views for:
-% \textit{Integrated Report}, \textit{Document Analysis}, \textit{Sentiment}, \textit{News}, and \textit{Stock Trends}. A comparison module evaluates alignment between internal reports and third-party analyses.
-
-
-
-
-% \section{System Design}
-% \label{sec:system-design}
-
-% The system architecture of \textbf{FIND-MA} is designed to modularly integrate retrieval, agent-based specialization, and LLM-based generation for comprehensive financial analysis. The architecture can be logically divided into three layers: (1) Data Ingestion and Indexing, (2) Multi-Agent Retrieval-Augmented Analysis, and (3) User Interaction and Report Generation.
-
-% \subsection{Layer 1: Data Ingestion and Indexing}
-% \begin{itemize}
-% \item \textbf{PDF Parser:} Financial reports in PDF format are ingested and parsed using \texttt{PyPDF2}. Text is extracted page-wise and cleaned for downstream processing.
-% \item \textbf{Text Chunking:} Extracted text is segmented using LangChain's \texttt{RecursiveCharacterTextSplitter} into overlapping chunks (1000-character windows with 200-character overlaps).
-% \item \textbf{Vector Embedding:} Each chunk is converted into a dense embedding using HuggingFace's \texttt{all-MiniLM-L6-v2} model.
-% \item \textbf{Vector Indexing:} Chunks and associated metadata are stored in a FAISS index to enable fast semantic retrieval during querying.
-% \end{itemize}
-
-% \subsection{Layer 2: Multi-Agent Retrieval-Augmented Analysis}
-% This layer contains four specialized agents that each retrieve context via the shared FAISS index and analyze it using a large language model (LLM):
-
-% \begin{itemize}
-% \item \textbf{Reports Agent:} Extracts insights from annual reports, investor presentations, and filings.
-% \item \textbf{Sentiment Agent:} Performs sentiment classification on long-form documents and summarizes polarity and emotional tone.
-% \item \textbf{News Agent:} Fetches or simulates recent news headlines, extracts key updates, and summarizes them for their financial impact.
-% \item \textbf{Stock Price Agent:} Retrieves historical market data, computes indicators, and summarizes stock performance using LLM-based reasoning.
-% \end{itemize}
-
-% Each agent sends a context-specific prompt to the \texttt{deepseek-r1} model via the Ollama API. The LLM responses are stored in a shared memory for integration.
-
-% \subsection{Layer 3: User Interaction and Report Generation}
-% \begin{itemize}
-% \item \textbf{Interactive Widget:} Built using \texttt{ipywidgets}, it allows users to input a company name, ticker symbol, and financial question.
-% \item \textbf{Tabbed UI:} Users receive modular outputs across tabs: \textit{Integrated Report}, \textit{Document Analysis}, \textit{Sentiment}, \textit{News}, and \textit{Stock Trends}.
-% \item \textbf{Integrated Prompt Composer:} Aggregates agent outputs into a comprehensive prompt. The LLM generates an executive-level financial report with structured recommendations.
-% \item \textbf{Comparative Engine:} Enables benchmarking between internal reports (e.g., annual filings) and external ones (e.g., MIDAS Reports), producing similarity scores and contrastive insights.
-% \end{itemize}
-
-% This layered architecture ensures that FIND-MA remains modular, explainable, and extensible for future financial domains and new data sources.
-
-
-
-
-
-
-
-
-
-
-
-
-% \section{Case Studies and Evaluation}
-% \begin{itemize}
-%     \item Qualitative analysis: Example companies with agent outputs
-%     \item Quantitative evaluation: Accuracy of insights, user trust, diversity of viewpoints
-%     \item Baseline comparisons (e.g., Perplexity, Manus, Grok Think)
-% \end{itemize}
-
-% \section{Limitations and Future Work}
-% \begin{itemize}
-%     \item Current dependence on LLM quality
-%     \item Latency and scalability challenges
-%     \item Future extensions (e.g., temporal reasoning, agent fine-tuning)
-% \end{itemize}
-
-% \section{Conclusion}
-% \begin{itemize}
-%     \item Recap of contributions
-%     \item Real-world applications (investment due diligence, corporate risk analysis)
-%     \item Vision for trustworthy multi-agent AI in financial domains
-% \end{itemize}
-
-
+\paragraph{Our Contribution.}
+\findma{} is the first system to unify retrieval-augmented generation, LLM-based specialization, and decentralized multi-agent collaboration for explainable financial analysis. Built atop \textbf{DeepSeek-R1} and \textbf{Qwen3}, the system orchestrates reasoning across agents focused on specific dimensions—financial signals, market dynamics, sentiment, and risk. Outputs such as SWOT analyses and executive summaries are traceable, modular, and grounded in curated evidence, offering a scalable and transparent solution for analysts, investors, and policy advisors.
 
 \section{System Overview}
 \label{sec:overview}
-
-\textbf{FIND-MA} (\textit{Financial Insight via a Network of Distributed Multi-Agents}) is a modular framework designed to produce explainable, high-resolution company analyses by combining retrieval-augmented generation (RAG) with a coordinated multi-agent reasoning pipeline. Unlike monolithic LLM systems, FIND-MA decomposes the analysis into multiple specialized agents that operate over a shared evidence base and asynchronously contribute to a collective financial report.
+\textbf{\findma{}} (\textit{Financial Insight via a Network of Distributed Multi-Agents}) is a modular framework designed to produce explainable, high-resolution company analyses by combining retrieval-augmented generation (RAG) with a coordinated multi-agent reasoning pipeline. Unlike monolithic LLM systems, \findma{} decomposes the analysis into multiple specialized agents that operate over a shared evidence base and asynchronously contribute to a collective financial report.
 
 \subsection*{Architectural Components}
-
 The system is composed of five primary components:
-
 \begin{itemize}
     \item \textbf{Retrieval Engine:} A FAISS-based dense vector retriever indexes a curated corpus of annual reports, earnings transcripts, and financial news spanning five years and 30+ companies. Retrieved chunks are filtered by relevance, metadata, and temporal alignment.
-    
     \item \textbf{Agent Network:} Each agent (e.g., Sentiment Agent, Stock Price Correlator, News Agent) is responsible for a specific analytical dimension. Agents use prompt templates and LLMs (DeepSeek-R1, Qwen3) to process retrieved context and generate role-specific insights.
-
     \item \textbf{Shared Memory Store:} A persistent memory module allows agents to write, read, and reference each other’s outputs. This facilitates inter-agent communication, context sharing, and traceability.
-
     \item \textbf{LLM Inference Layer:} DeepSeek-R1 and Qwen3 serve as the generative engines behind each agent. These models are selected dynamically based on reasoning complexity, with DeepSeek used for multi-hop synthesis and Qwen for lightweight tasks.
-
     \item \textbf{Report Synthesizer:} A final module compiles outputs from all agents into structured, human-readable reports. The reports include SWOT analyses, risk flags, sentiment summaries, and financial commentary—each linked to its generating agent and source evidence.
 \end{itemize}
 
 \subsection*{Design Philosophy}
-
-FIND-MA is built with three key principles:
-
+\findma{} is built with three key principles:
 \begin{enumerate}
     \item \textbf{Explainability:} Each agent provides transparent outputs grounded in retrieved context, with reasoning steps accessible through shared memory logs.
     \item \textbf{Modularity:} New agents can be added without system redesign, supporting extensibility to ESG, macroeconomic, or policy domains.
@@ -346,20 +140,14 @@ FIND-MA is built with three key principles:
 \end{enumerate}
 
 \subsection*{Pipeline Overview}
-
-Upon receiving a query (e.g., a company name or risk theme), FIND-MA performs evidence retrieval, launches agents in parallel or sequence, enables cross-agent updates via memory, and finally compiles the results. This mimics the behavior of a team of financial analysts operating collaboratively, with each agent contributing a distinct evaluative lens.
-
-
+Upon receiving a query (e.g., a company name or risk theme), \findma{} performs evidence retrieval, launches agents in parallel or sequence, enables cross-agent updates via memory, and finally compiles the results. This mimics the behavior of a team of financial analysts operating collaboratively, with each agent contributing a distinct evaluative lens.
 
 \section{Methodology}
 \label{sec:methodology}
-
-FIND-MA decomposes the task of fundamental company analysis into specialized subtasks handled by independent agents. Each agent operates over a common retrieval base using its own reasoning strategy and language model configuration, coordinated via a structured memory and dialogue mechanism. This section outlines the core components of the system pipeline.
+\findma{} decomposes the task of fundamental company analysis into specialized subtasks handled by independent agents. Each agent operates over a common retrieval base using its own reasoning strategy and language model configuration, coordinated via a structured memory and dialogue mechanism. This section outlines the core components of the system pipeline.
 
 \subsection*{Input and Preprocessing}
-
-Given a company name or user query, FIND-MA first resolves the entity against its indexed metadata (e.g., sector, ticker, report availability). Document chunks relevant to the query are retrieved using dense semantic search (via SentenceTransformers and FAISS). Each document is preprocessed through:
-
+Given a company name or user query, \findma{} first resolves the entity against its indexed metadata (e.g., sector, ticker, report availability). Document chunks relevant to the query are retrieved using dense semantic search (via SentenceTransformers and FAISS). Each document is preprocessed through:
 \begin{itemize}
     \item \textbf{Chunking:} Long documents (e.g., annual reports) are split into overlapping windows of 300–500 words to preserve context.
     \item \textbf{Metadata Tagging:} Each chunk is labeled with company, year, source type (e.g., concall, filing), and document confidence.
@@ -367,10 +155,7 @@ Given a company name or user query, FIND-MA first resolves the entity against it
 \end{itemize}
 
 \subsection*{Retrieval-Augmented Generation (RAG) Layer}
-
-Each agent queries the FAISS index independently using a role-specific embedding. Retrieved chunks are incorporated into its generation prompt, enabling the agent to ground outputs in domain-specific evidence.
-
-The RAG layer supports:
+Each agent queries the FAISS index independently using a role-specific embedding. Retrieved chunks are incorporated into its generation prompt, enabling the agent to ground outputs in domain-specific evidence. The RAG layer supports:
 \begin{itemize}
     \item Top-$k$ semantic retrieval using cosine similarity.
     \item Optional re-ranking using keyword overlap or recency.
@@ -378,20 +163,16 @@ The RAG layer supports:
 \end{itemize}
 
 \subsection*{Agent Reasoning Cycle}
-
 Each agent executes the following loop:
-
 \begin{enumerate}
-    \item \textbf{Role Initialization:} Instantiated with its task (e.g., "analyze sentiment from concalls") and agent-specific prompt structure.
+    \item \textbf{Role Initialization:} Instantiated with its task (e.g., ``analyze sentiment from concalls'') and agent-specific prompt structure.
     \item \textbf{Context Retrieval:} Chunks are selected based on query embedding and role filters.
-    \item \textbf{Inference:} The LLM (DeepSeek-R1 or Qwen3) processes the prompt and generates structured output, optionally using Chain-of-Thought reasoning or DeepThink self-reflection.
+    \item \textbf{Inference:} The LLM (DeepSeek-R1 or Qwen3) processes the prompt and generates structured output, optionally using Chain-of-Thought reasoning or self-reflection.
     \item \textbf{Memory Write-Back:} The output is logged in the shared memory store with metadata for later use by other agents or the report compiler.
 \end{enumerate}
 
 \subsection*{Inter-Agent Dialogue and Shared Memory}
-
 Agents interact asynchronously via a centralized memory that stores all intermediate outputs. This enables:
-
 \begin{itemize}
     \item \textbf{Cross-Agent Referencing:} Agents may use prior outputs as input context, e.g., sentiment agent citing news events from the News Agent.
     \item \textbf{Conflict Resolution:} Discrepancies (e.g., bullish sentiment vs. declining stock) can be flagged for report synthesis logic.
@@ -399,7 +180,6 @@ Agents interact asynchronously via a centralized memory that stores all intermed
 \end{itemize}
 
 \subsection*{Report Synthesis}
-
 The system compiles a structured report by aggregating the outputs of all agents. The report includes:
 \begin{itemize}
     \item \textbf{Executive Summary}
@@ -407,23 +187,19 @@ The system compiles a structured report by aggregating the outputs of all agents
     \item \textbf{Financial Health Assessment}
     \item \textbf{Strategic Risk and Sentiment Trends}
 \end{itemize}
-
 Each section links to its underlying evidence and agentic source, providing users with both high-level insight and transparent provenance. The report can be rendered in markdown, JSON, or interactive web formats.
 
 \section{Agent Roles and Specialization}
 \label{sec:agents}
-
-FIND-MA delegates distinct analytical responsibilities to a set of specialized agents, each equipped with its own prompt template, reasoning strategy, and retrieval filters. This modular architecture mirrors the functional decomposition of a human financial analyst team.
+\findma{} delegates distinct analytical responsibilities to a set of specialized agents, each equipped with its own prompt template, reasoning strategy, and retrieval filters. This modular architecture mirrors the functional decomposition of a human financial analyst team.
 
 \subsection*{Sentiment Analysis Agent}
-
 This agent evaluates tone, optimism, and caution embedded in company communications, particularly earnings call transcripts and executive statements.
-
 \begin{itemize}
     \item \textbf{Sources:} Concall transcripts, press releases.
     \item \textbf{Capabilities:}
         \begin{itemize}
-            \item Speaker-aware analysis (CEO vs. analyst).
+            \item Speaker-aware analysis (CEO vs.\ analyst).
             \item Temporal tracking of sentiment shifts across quarters.
             \item Classification of language into bullish, neutral, or bearish tone.
         \end{itemize}
@@ -431,9 +207,7 @@ This agent evaluates tone, optimism, and caution embedded in company communicati
 \end{itemize}
 
 \subsection*{Stock Price Correlator Agent}
-
 This agent connects textual events to movements in stock prices, aiming to generate plausible causal hypotheses.
-
 \begin{itemize}
     \item \textbf{Sources:} Earnings calls, filings, news; aligned with historical price data.
     \item \textbf{Capabilities:}
@@ -446,9 +220,7 @@ This agent connects textual events to movements in stock prices, aiming to gener
 \end{itemize}
 
 \subsection*{News Agent}
-
 This agent surfaces recent events and evaluates their potential impact on internal metrics and investor perception.
-
 \begin{itemize}
     \item \textbf{Sources:} Financial news, media coverage, press releases.
     \item \textbf{Capabilities:}
@@ -461,9 +233,7 @@ This agent surfaces recent events and evaluates their potential impact on intern
 \end{itemize}
 
 \subsection*{Strategic and Financial Health Agent}
-
 This agent evaluates a company's capital structure, revenue trajectory, margins, debt, and strategic goals. It uses information from filings to assess overall business resilience.
-
 \begin{itemize}
     \item \textbf{Sources:} Annual reports, investor presentations.
     \item \textbf{Capabilities:}
@@ -476,9 +246,7 @@ This agent evaluates a company's capital structure, revenue trajectory, margins,
 \end{itemize}
 
 \subsection*{Report Synthesis Agent (Meta-Agent)}
-
 This agent collects and compiles the outputs from other agents into a cohesive final report. It ensures cross-agent coherence and traceability.
-
 \begin{itemize}
     \item \textbf{Sources:} Outputs from all agents.
     \item \textbf{Capabilities:}
@@ -490,16 +258,12 @@ This agent collects and compiles the outputs from other agents into a cohesive f
     \item \textbf{Model:} Qwen3 or DeepSeek-R1 depending on generation complexity.
 \end{itemize}
 
-
 \section{Dataset}
 \label{sec:dataset}
-
-To ensure high factual grounding and domain alignment, FIND-MA operates over a curated, company-specific retrieval corpus comprising five years of real-world financial documents. This dataset enables retrieval-augmented agents to reason over structured evidence rather than relying solely on pre-trained model weights.
+To ensure high factual grounding and domain alignment, \findma{} operates over a curated, company-specific retrieval corpus comprising five years of real-world financial documents. This dataset enables retrieval-augmented agents to reason over structured evidence rather than relying solely on pre-trained model weights.
 
 \subsection*{Motivation and Design Criteria}
-
-Existing financial NLP datasets such as \texttt{FinancialPhraseBank} and \texttt{FinStatements} primarily support classification and extraction tasks but lack longitudinal structure, document diversity, and sector-specific metadata required for multi-agent reasoning. FIND-MA’s dataset is designed to support:
-
+Existing financial NLP datasets such as \texttt{FinancialPhraseBank} and \texttt{FinStatements} primarily support classification and extraction tasks but lack longitudinal structure, document diversity, and sector-specific metadata required for multi-agent reasoning. \findma{}’s dataset is designed to support:
 \begin{itemize}
     \item Multi-source grounding (annual reports, news, transcripts).
     \item Sector and company-level filtering for agent specialization.
@@ -508,9 +272,7 @@ Existing financial NLP datasets such as \texttt{FinancialPhraseBank} and \texttt
 \end{itemize}
 
 \subsection*{Corpus Composition}
-
 The dataset includes over 500 documents covering 30+ companies across diverse sectors such as pharmaceuticals, semiconductors, telecommunications, technology, and defence. Each company’s profile includes:
-
 \begin{itemize}
     \item \textbf{Annual Reports (2019–2024):} MD\&A sections, risk disclosures, strategy discussions.
     \item \textbf{Earnings Call Transcripts:} Annotated by quarter and speaker role (e.g., CEO, analyst).
@@ -519,30 +281,22 @@ The dataset includes over 500 documents covering 30+ companies across diverse se
 \end{itemize}
 
 \subsection*{Metadata and Storage Format}
-
 Each document chunk is embedded with metadata to support targeted retrieval and filtering:
-
 \begin{itemize}
     \item \texttt{company\_name}, \texttt{year}, \texttt{sector}, \texttt{source\_type}
-    \item \texttt{chunk\_id}, \texttt{summary}, \texttt{source\_url (if public)}
+    \item \texttt{chunk\_id}, \texttt{summary}, \texttt{source\_url} (if public)
 \end{itemize}
-
 The corpus is stored as a collection of JSONL files and indexed using FAISS for fast, dense retrieval. Embeddings are generated using SentenceTransformers fine-tuned on financial corpora to maximize semantic alignment.
 
 \subsection*{Annotation and Quality Control}
-
 Document summaries and tag validation were performed manually to ensure retrieval precision. Each company profile was reviewed to confirm sector relevance, metadata correctness, and event coverage. Feedback from early agent runs was used to iteratively refine document chunking and prompt injection strategies.
-
 
 \section{System Implementation}
 \label{sec:implementation}
-
-FIND-MA is implemented as a modular, end-to-end system using open-source components and scalable orchestration layers. The architecture supports flexible deployment, rapid prototyping, and integration of multiple language models and agent roles.
+\findma{} is implemented as a modular, end-to-end system using open-source components and scalable orchestration layers. The architecture supports flexible deployment, rapid prototyping, and integration of multiple language models and agent roles.
 
 \subsection*{Technology Stack}
-
 The core system is implemented in Python, with key components including:
-
 \begin{itemize}
     \item \textbf{LLM Inference:} DeepSeek-R1 and Qwen3 are accessed via Hugging Face Transformers and vLLM inference backends. Prompt templates are customized per agent.
     \item \textbf{Embedding and Retrieval:} SentenceTransformers is used to encode document chunks, which are stored and queried via a FAISS vector index.
@@ -552,9 +306,7 @@ The core system is implemented in Python, with key components including:
 \end{itemize}
 
 \subsection*{Agent Lifecycle}
-
 Each agent operates independently following a standardized lifecycle:
-
 \begin{enumerate}
     \item \textbf{Initialization:} The agent receives a task role and company context.
     \item \textbf{Query Embedding and Retrieval:} The agent generates a query vector and retrieves top-$k$ chunks from FAISS.
@@ -564,13 +316,10 @@ Each agent operates independently following a standardized lifecycle:
 \end{enumerate}
 
 \subsection*{Execution Model}
-
-FIND-MA supports both parallel and sequential agent execution. Parallel execution is used for agents with independent scopes (e.g., News and Sentiment Agents), while sequential chaining is used where inter-agent context is essential (e.g., Synthesis Agent depending on others’ outputs). Logs and timestamps are recorded at each stage for latency analysis and debugging.
+\findma{} supports both parallel and sequential agent execution. Parallel execution is used for agents with independent scopes (e.g., News and Sentiment Agents), while sequential chaining is used where inter-agent context is essential (e.g., Synthesis Agent depending on others’ outputs). Logs and timestamps are recorded at each stage for latency analysis and debugging.
 
 \subsection*{Scalability and Extensibility}
-
 The architecture is designed for extensibility:
-
 \begin{itemize}
     \item New agents (e.g., ESG or Macroeconomic Agents) can be added by defining their retrieval scope, prompt logic, and output format.
     \item Model routing can be optimized via lightweight benchmarking to dynamically select between DeepSeek-R1 and Qwen3.
@@ -578,24 +327,19 @@ The architecture is designed for extensibility:
 \end{itemize}
 
 \subsection*{Deployment Plans}
-
 For user-facing interaction, a Streamlit-based dashboard is being developed. It will allow:
 \begin{itemize}
     \item Query input and company selection,
     \item Visualization of agent-wise outputs,
     \item Export of structured reports (JSON, PDF).
 \end{itemize}
-
 This implementation strategy supports a seamless transition from research prototype to production-grade tool for analysts and non-technical users alike.
-
 
 \section{Evaluation and Results}
 \label{sec:evaluation}
-
-We evaluate FIND-MA along two key axes: (1) the quality and interpretability of agent-generated insights, and (2) the coherence and completeness of the synthesized financial reports. The evaluation combines structured human feedback with case study-based benchmarking across multiple sectors.
+We evaluate \findma{} along two key axes: (1) the quality and interpretability of agent-generated insights, and (2) the coherence and completeness of the synthesized financial reports. The evaluation combines structured human feedback with case study-based benchmarking across multiple sectors.
 
 \subsection*{Evaluation Objectives}
-
 Our goals are to assess whether:
 \begin{itemize}
     \item Each agent produces relevant, well-grounded outputs from retrieved evidence.
@@ -604,13 +348,10 @@ Our goals are to assess whether:
 \end{itemize}
 
 \subsection*{Case Study Setup}
-
-We ran FIND-MA on 20 companies across six sectors—technology, pharmaceuticals, telecom, defense, healthcare, and semiconductors. For each case, the system generated a full report based on the past five years of filings and related news. Each report was reviewed by human evaluators with backgrounds in finance or business analytics.
+We ran \findma{} on 20 companies across six sectors—technology, pharmaceuticals, telecom, defense, healthcare, and semiconductors. For each case, the system generated a full report based on the past five years of filings and related news. Each report was reviewed by human evaluators with backgrounds in finance or business analytics.
 
 \subsection*{Metrics}
-
 We adopted both quantitative and qualitative measures:
-
 \begin{itemize}
     \item \textbf{Factual Accuracy (1–5):} Alignment of agent insights with ground-truth filings and events.
     \item \textbf{Interpretability (1–5):} Clarity and traceability of reasoning paths and outputs.
@@ -620,88 +361,55 @@ We adopted both quantitative and qualitative measures:
 \end{itemize}
 
 \subsection*{Results Summary}
-
 \begin{itemize}
-    \item \textbf{Factual Accuracy:} 4.3 ± 0.4 — Agent outputs were strongly grounded in retrieval context.
-    \item \textbf{Interpretability:} 4.5 ± 0.3 — Modular outputs and role-specific prompts contributed to clarity.
-    \item \textbf{Relevance:} 4.2 ± 0.5 — Most outputs directly addressed company-specific conditions or strategic inflection points.
-    \item \textbf{Cross-Agent Consistency:} 86\% agreement — Minimal contradictions, with some trade-off between sentiment tone and stock movement patterns.
-    \item \textbf{Latency:} 42.7 seconds average — Full report generation took under a minute for most runs, including all agent passes.
+    \item \textbf{Factual Accuracy:} $4.3 \pm 0.4$ — Agent outputs were strongly grounded in retrieval context.
+    \item \textbf{Interpretability:} $4.5 \pm 0.3$ — Modular outputs and role-specific prompts contributed to clarity.
+    \item \textbf{Relevance:} $4.2 \pm 0.5$ — Most outputs directly addressed company-specific conditions or strategic inflection points.
+    \item \textbf{Cross-Agent Consistency:} $86\%$ agreement — Minimal contradictions, with some trade-off between sentiment tone and stock movement patterns.
+    \item \textbf{Latency:} $42.7$ seconds average — Full report generation took under a minute for most runs, including all agent passes.
 \end{itemize}
 
 \subsection*{Qualitative Feedback}
-
 Human reviewers praised:
 \begin{itemize}
     \item The transparency of agent-level outputs.
     \item The interpretability of SWOT and sentiment summaries.
     \item The factual grounding in real, time-aligned documents.
 \end{itemize}
-
 Limitations were noted in:
 \begin{itemize}
     \item Table-based metric extraction (e.g., parsing balance sheet figures).
     \item Sensitivity to ambiguous language in transcripts.
-    \item Occasional verbosity in the synthesis agent's summarizations.
+    \item Occasional verbosity in the synthesis agent’s summarizations.
 \end{itemize}
 
 \subsection*{Ablation and Comparative Observations}
-
-To assess the effect of agent modularity, we compared FIND-MA with a single-prompt baseline using DeepSeek-R1 across all retrieved documents. FIND-MA’s agent-based pipeline showed:
+To assess the effect of agent modularity, we compared \findma{} with a single-prompt baseline using DeepSeek-R1 across all retrieved documents. \findma{}’s agent-based pipeline showed:
 \begin{itemize}
     \item Better traceability and explanation clarity.
     \item Higher inter-reviewer agreement on accuracy and usefulness.
     \item Lower hallucination due to role-specific prompt control.
 \end{itemize}
 
-
 \section{Future Work and Conclusion}
 \label{sec:conclusion}
-
 \subsection*{Future Work}
-
-While FIND-MA demonstrates the potential of multi-agent LLM frameworks in financial analysis, several directions remain for future enhancement:
-
+While \findma{} demonstrates the potential of multi-agent LLM frameworks in financial analysis, several directions remain for future enhancement:
 \begin{itemize}
-    \item \textbf{Expanded Agent Network:} We aim to introduce new agents such as an \textit{ESG Agent}, a \textit{Macroeconomic Impact Agent}, and a \textit{Policy and Regulation Agent} to expand analytical coverage across sustainability, governance, and external policy factors.
-    
+    \item \textbf{Expanded Agent Network:} Introduce new agents such as an \textit{ESG Agent}, a \textit{Macroeconomic Impact Agent}, and a \textit{Policy and Regulation Agent} to expand analytical coverage across sustainability, governance, and external policy factors.
     \item \textbf{Advanced Table Parsing and Visual Input Handling:} Current document parsing does not robustly handle numerical tables or embedded charts. Integration of tools like PDFTables, Donut, or ChartQA could enhance the system’s ability to interpret financial ratios and graphical trends.
-
     \item \textbf{Human-in-the-Loop Evaluation:} A structured feedback interface will allow analysts and retail investors to rate, revise, and interact with agent outputs—providing fine-tuning signals for future model improvements.
-
-    \item \textbf{Interactive Deployment:} A fully deployed version of FIND-MA with a Streamlit frontend is under development. This interface will support company queries, agent-wise insight display, and export of structured reports for end users.
-
-    \item \textbf{Scalability and Cross-Market Extension:} We plan to evaluate FIND-MA on companies from non-English markets and domains beyond public equities—such as startups, IPOs, and ESG disclosures—to assess cross-linguistic and cross-sector generalizability.
+    \item \textbf{Interactive Deployment:} A fully deployed version of \findma{} with a Streamlit frontend is under development. This interface will support company queries, agent-wise insight display, and export of structured reports for end users.
+    \item \textbf{Scalability and Cross-Market Extension:} Evaluate \findma{} on companies from non-English markets and domains beyond public equities—such as startups, IPOs, and ESG disclosures—to assess cross-linguistic and cross-sector generalizability.
 \end{itemize}
 
 \subsection*{Conclusion}
+We presented \textbf{\findma{}}, a Retrieval-Augmented, Multi-Agent Framework for fundamental company analysis. By orchestrating role-specific agents—each grounded in domain-specific evidence and powered by state-of-the-art LLMs like DeepSeek-R1 and Qwen3—\findma{} produces explainable, modular, and traceable evaluations. The system operates over a curated dataset of annual reports, earnings transcripts, and financial news spanning five years and 30+ companies, supporting grounded and high-fidelity reasoning.
 
-We presented \textbf{FIND-MA}, a Retrieval-Augmented, Multi-Agent Framework for fundamental company analysis. By orchestrating role-specific agents—each grounded in domain-specific evidence and powered by state-of-the-art LLMs like DeepSeek-R1 and Qwen3—FIND-MA produces explainable, modular, and traceable evaluations. The system operates over a curated dataset of annual reports, earnings transcripts, and financial news spanning five years and 30+ companies, supporting grounded and high-fidelity reasoning.
+Through human evaluation, case studies, and ablation analysis, we demonstrate that \findma{} significantly improves the interpretability and relevance of financial insights compared to single-prompt baselines. Its architecture provides a scalable, extensible foundation for the next generation of trustworthy AI tools in financial services. As financial analysis becomes more complex and data-rich, systems like \findma{} offer a promising path toward democratizing deep reasoning—bridging human expertise with the inferential power of large language models.
 
-Through human evaluation, case studies, and ablation analysis, we demonstrate that FIND-MA significantly improves the interpretability and relevance of financial insights compared to single-prompt baselines. Its architecture provides a scalable, extensible foundation for the next generation of trustworthy AI tools in financial services.
-
-As financial analysis becomes more complex and data-rich, systems like FIND-MA offer a promising path toward democratizing deep reasoning—bridging human expertise with the inferential power of large language models.
-
-
-
-% \section*{Acknowledgments}
-
-
-
-\newpage
-% Bibliography entries for the entire Anthology, followed by custom entries
-%\bibliography{anthology,custom}
-% Custom bibliography entries only
+% ------------- Bibliography -------------
+\bibliographystyle{plainnat}
 \bibliography{custom}
-
-
-% \newpage
-
-% \appendix
-
-% \section{Example Appendix}
-% \label{sec:appendix}
-
-% This is an appendix.
 
 \end{document}
