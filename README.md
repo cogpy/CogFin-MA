@@ -13,18 +13,17 @@ We introduce **FIND-MA**, a Retrieval-Augmented Generation (RAG)-based multi-age
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Features](#features)
-- [Agent Roles](#agent-roles)
-- [Dataset](#dataset)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Examples](#examples)
-- [Evaluation](#evaluation)
-- [Contributing](#contributing)
-- [License](#license)
-- [Citation](#citation)
+- [Overview](#-overview)
+- [Architecture](#️-architecture)
+- [Features](#-features)
+- [Agent Roles](#-agent-roles)
+- [Dataset](#-dataset)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Examples](#-examples)
+- [Evaluation](#-evaluation)
+- [License](#-license)
+- [Citation](#-citation)
 
 ## 🎯 Overview
 
@@ -247,17 +246,6 @@ FIND-MA outperforms single-prompt baselines in:
 - Traceability and explanation clarity
 - Inter-reviewer agreement on accuracy
 - Reduced hallucination through role-specific prompts
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Areas for Contribution
-- New agent implementations (ESG, Macroeconomic, Policy)
-- Enhanced table parsing and visual input handling
-- Multi-language support
-- Performance optimizations
-- Documentation improvements
 
 ## 📄 License
 
